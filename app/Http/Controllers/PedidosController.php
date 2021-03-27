@@ -52,16 +52,29 @@ class PedidosController extends Controller
 
     public function store(PedidosFormRequest $request)
     {
-        $pedidos=new Pedidos;
-        $pedidos->id_cliente=$request->get('id_cliente');
-        $pedidos->id_envio=$request->get('id_envio');
-        $pedidos->fecha=$request->get('fecha');
-        $pedidos->id_articulo=$request->get('id_articulo');
-        $pedidos->descripcion=$request->get('descripcion');
-        $pedidos->cantidad=$request->get('cantidad');
-        $pedidos->condicion='1';
-        $pedidos->save();
-        return Redirect::to('pedidos');
+        try
+        {
+            DB::beginTransaction();
+
+            $pedidos=new Pedidos;
+            $pedidos->id_cliente=$request->get('id_cliente');
+            $pedidos->id_envio=$request->get('id_envio');
+            $pedidos->fecha=$request->get('fecha');
+            $pedidos->id_articulo=$request->get('id_articulo');
+            $pedidos->descripcion=$request->get('descripcion');
+            $pedidos->cantidad=$request->get('cantidad');
+            $pedidos->condicion='1';
+            $pedidos->save();
+            
+            DB::commit();
+            return Redirect::to('pedidos'); 
+            
+        }catch(Exception $e)
+        {
+            BD::rollback();
+        }
+
+        
     }
 
 
