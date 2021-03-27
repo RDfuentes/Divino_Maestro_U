@@ -43,11 +43,12 @@ class PedidosController extends Controller
  
     public function create()
     { 
-        //agregado 2 lineas
+        //agregado 2 lineas       
         $clientes=DB::table('clientes')->where('condicion','=','1')->get();
         $envios=DB::table('envios')->where('condicion','=','1')->get();
         $articulos=DB::table('articulos')->where('condicion','=','1')->get();
-        return view("pedidos.create",["clientes"=>$clientes],["articulos"=>$articulos],["envios"=>$envios]);// retorna a la vista principal que se ha creado en resource
+        return view("pedidos.create",["clientes"=>$clientes,"envios"=>$envios,"articulos"=>$articulos]); // retorna a la vista principal que se ha creado en resource
+    
     }
 
     public function store(PedidosFormRequest $request)

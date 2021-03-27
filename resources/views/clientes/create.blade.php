@@ -66,16 +66,16 @@
             </div>
 		</div>
 		<div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-					<div class="form-group">
-						<label for="">Direccion de envio</label>
-						<select name="id_envio" id="" class="form-control">
-						<option value="">-- SELECCIONES LA DIRECCION DE ENVIO --</option>
-						@foreach ($envios as $env)
-						<option value="{{$env->id_envio}}">{{$env->lugar_envio}}</option>
-						@endforeach
-						</select>
-					</div>	
-				</div>
+			<div class="form-group">
+				<label for="">Direccion de envio</label>
+				<select name="id_envio" id="" class="form-control">
+				<option value="">-- SELECCIONES LA DIRECCION DE ENVIO --</option>
+				@foreach ($envios as $env)
+				<option value="{{$env->id_envio}}">{{$env->lugar_envio}}</option>
+				@endforeach
+				</select>
+			</div>	
+		</div>
 		<div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
 			<div class="form-group">
             	<label for=saldo>Saldo</label>

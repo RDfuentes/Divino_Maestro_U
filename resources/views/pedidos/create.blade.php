@@ -60,7 +60,12 @@
 				<div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
 					<div class="form-group">
 						<label for="id_envio">Direccion de envio</label>
-						<input type="number" name="id_envio" value="{{old('id_envio')}}" class="form-control" placeholder="Numero de direccion de Envio">
+						<select name="id_envio" id="" class="form-control">
+						<option value="">-- SELECCIONE DIRECCION DE ENVIO --</option>
+						@foreach ($envios as $env)
+						<option value="{{$env->id_envio}}">{{$env->lugar_envio}}</option>
+						@endforeach
+						</select>
 					</div>
 				</div>
 				<div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
