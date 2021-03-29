@@ -23,6 +23,7 @@ class ArticulosFormRequest extends FormRequest
      */
     public function rules()
     {
+        // 1 .QUITAMOS LAS VALIDACIONES (REQUIRED) PARA COMPROBAR QUE FUNCIONE LA TRANSACCIÓN
         return [
             'articulo'=>'required',
             'id_fabrica'=>'required',

@@ -40,7 +40,6 @@ class ArticulosController extends Controller
         }
     }
 
-
     public function create()
     { 
         $fabricas=DB::table('fabricas')->where('condicion','=','1')->get();
@@ -49,14 +48,30 @@ class ArticulosController extends Controller
 
     public function store(ArticulosFormRequest $request)
     {
-        $articulos=new Articulos;
-        $articulos->articulo=$request->get('articulo');
-        $articulos->id_fabrica=$request->get('id_fabrica');
-        $articulos->existencia=$request->get('existencia');
-        $articulos->descripcion=$request->get('descripcion');
-        $articulos->condicion='1';
-        $articulos->save();
-        return Redirect::to('articulos');
+        try
+        {
+            DB::beginTransaction();
+
+            $articulos=new Articulos;
+            $articulos->articulo=$request->get('articulo');
+            $articulos->id_fabrica=$request->get('id_fabrica');
+            $articulos->existencia=$request->get('existencia');
+            $articulos->descripcion=$request->get('descripcion');
+            $articulos->condicion='1';
+            $articulos->save();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('articulos');
+         
+        }
+
+        //2. EN CATCH, HACE UNA EXCEPCION - PARA SABER SI FUNCIONA QUITAR LA CONTRADIAGONAL
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+        }     
     }
 
 

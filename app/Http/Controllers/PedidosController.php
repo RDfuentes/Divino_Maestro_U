@@ -72,7 +72,7 @@ class PedidosController extends Controller
             
         }catch(Exception $e)
         {
-            BD::rollback();
+            DB::rollback();
         }
 
         

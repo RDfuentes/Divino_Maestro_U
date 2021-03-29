@@ -25,7 +25,7 @@ class FabricasFormRequest extends FormRequest
     {
         return [
             'nombre'=>'required',
-            'telefono'=>'required|max:8',
+            'telefono'=>'required|min:8|max:8',
         ];
     }
 }
