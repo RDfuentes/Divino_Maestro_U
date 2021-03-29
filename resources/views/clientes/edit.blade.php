@@ -51,7 +51,7 @@
 			<div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
 			<div class="form-group">
             	<label for="codigo_unico">Codigo</label>
-            	<input type="text" name="codigo_unico"  required value="{{$clientes->codigo_unico}}"class="form-control" placeholder="Codigo del Cliente">
+            	<input type="text" name="codigo_unico" value="{{$clientes->codigo_unico}}"class="form-control" placeholder="Codigo del Cliente">
             </div>
 		</div>
 		<div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">

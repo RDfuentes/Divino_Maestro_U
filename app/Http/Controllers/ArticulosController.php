@@ -25,14 +25,14 @@ class ArticulosController extends Controller
             $articulos=DB::table('articulos as a')
             ->join('fabricas as f', 'a.id_fabrica', '=', 'f.id_fabrica')
             ->select('a.id_articulo','a.articulo','a.existencia','a.descripcion','a.condicion','f.nombre as fabricas')
-            ->where('a.id_articulo','LIKE','%'.$query.'%')
+
+            //ES NECESARIO COLOCARLE LA CONDICION = 1 EN CADA METODO DE BUSQUEDA
+            ->orwhere('a.id_articulo','LIKE','%'.$query.'%')
             ->where('a.condicion','=','1')
             ->orwhere('a.articulo','LIKE','%'.$query.'%')
-            ->where('a.condicion','=','1') 
+            ->where('a.condicion','=','1')
             ->orwhere('f.nombre','LIKE','%'.$query.'%')
-            ->where('a.condicion','=','1')  
-            ->orwhere('a.existencia','LIKE','%'.$query.'%')
-            ->where('a.condicion','=','1')   
+            ->where('a.condicion','=','1')
 
             ->orderBy('a.id_articulo','desc')
             ->paginate(7);
@@ -63,14 +63,13 @@ class ArticulosController extends Controller
             DB::Commit();
             return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
             return Redirect::to('articulos');
-         
         }
-
         //2. EN CATCH, HACE UNA EXCEPCION - PARA SABER SI FUNCIONA QUITAR LA CONTRADIAGONAL
         catch(\Exception $e)
         {   
             return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
             DB::rollback();
+            return Redirect::to('articulos');
         }     
     }
 
@@ -89,21 +88,53 @@ class ArticulosController extends Controller
     }
 
     public function update(ArticulosFormRequest $request,$id_articulo) 
-    {   
-        $articulos=Articulos::findOrFail($id_articulo); 
-        $articulos->articulo=$request->get('articulo');
-        $articulos->id_fabrica=$request->get('id_fabrica');
-        $articulos->existencia=$request->get('existencia');
-        $articulos->descripcion=$request->get('descripcion');
-        $articulos->update();
-        return Redirect::to('articulos');
+    {
+        try
+        {
+            DB::beginTransaction();
+
+            $articulos=Articulos::findOrFail($id_articulo); 
+            $articulos->articulo=$request->get('articulo');
+            $articulos->id_fabrica=$request->get('id_fabrica');
+            $articulos->existencia=$request->get('existencia');
+            $articulos->descripcion=$request->get('descripcion');
+            $articulos->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('articulos');
+        }
+        catch(\Exception $e)
+        {   
+            //QUITAR LA ALERTA PARA CORRER EL PROGRAMA SIN EL MODO A PRUEBA
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('articulos');
+        }   
+        
     }
 
     public function destroy($id_articulo) 
     {
-        $articulos=Articulos::findOrFail($id_articulo);
-        $articulos->condicion='0';  
-        $articulos->update();
-        return Redirect::to('articulos');
+        try
+        {
+            DB::beginTransaction();
+
+            $articulos=Articulos::findOrFail($id_articulo);
+            $articulos->condicion='0';  
+            $articulos->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('articulos');
+        }
+        catch(\Exception $e)
+        {   
+            //QUITAR LA ALERTA PARA CORRER EL PROGRAMA SIN EL MODO A PRUEBA
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('articulos');
+        }  
+        
     }
 } 

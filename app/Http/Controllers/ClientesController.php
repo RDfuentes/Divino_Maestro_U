@@ -67,17 +67,32 @@ class ClientesController extends Controller
     // hacia el controlador -> modelo -> base de datos 
     public function store(ClientesFormRequest $request) // almacenar un objeto y los datos 
     {
-        $clientes=new Clientes;
-        $clientes->codigo_unico=$request->get('codigo_unico');
-        $clientes->nombre=$request->get('nombre');
-        $clientes->apellido=$request->get('apellido');
-        $clientes->id_envio=$request->get('id_envio');
-        $clientes->saldo=$request->get('saldo'); 
-        $clientes->credito=$request->get('credito');
-        $clientes->descuento=$request->get('descuento');
-        $clientes->condicion='1';
-        $clientes->save();
-        return Redirect::to('clientes');
+        try
+        {
+            DB::beginTransaction();
+
+            $clientes=new Clientes;
+            $clientes->codigo_unico=$request->get('codigo_unico');
+            $clientes->nombre=$request->get('nombre');
+            $clientes->apellido=$request->get('apellido');
+            $clientes->id_envio=$request->get('id_envio');
+            $clientes->saldo=$request->get('saldo'); 
+            $clientes->credito=$request->get('credito');
+            $clientes->descuento=$request->get('descuento');
+            $clientes->condicion='1';
+            $clientes->save();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('clientes');
+        }
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('clientes');
+        }   
+        
     }
 
     // funcion show para mostrar las vistas, en base al id unico de cada objeto 
@@ -97,24 +112,52 @@ class ClientesController extends Controller
     }
 
     public function update(ClientesFormRequest $request,$id_cliente) // guardar un objeto y los datos
-    {   
-        $clientes=Clientes::findOrFail($id_cliente); // duda
-        $clientes->codigo_unico=$request->get('codigo_unico');
-        $clientes->nombre=$request->get('nombre');
-        $clientes->apellido=$request->get('apellido');
-        $clientes->id_envio=$request->get('id_envio');
-        $clientes->saldo=$request->get('saldo');
-        $clientes->credito=$request->get('credito');
-        $clientes->descuento=$request->get('descuento');
-        $clientes->update();
-        return Redirect::to('clientes');
+    {
+        try
+        {
+            DB::beginTransaction();
+
+            $clientes=Clientes::findOrFail($id_cliente); // duda
+            $clientes->codigo_unico=$request->get('codigo_unico');
+            $clientes->nombre=$request->get('nombre');
+            $clientes->apellido=$request->get('apellido');
+            $clientes->id_envio=$request->get('id_envio');
+            $clientes->saldo=$request->get('saldo');
+            $clientes->credito=$request->get('credito');
+            $clientes->descuento=$request->get('descuento');
+            $clientes->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('clientes');
+        }
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('clientes');
+        }
     }
 
     public function destroy($id_cliente) // eliminar un objeto y sus datos
     {
-        $clientes=Clientes::findOrFail($id_cliente);
-        $clientes->condicion='0';  
-        $clientes->update();
-        return Redirect::to('clientes');
+        try
+        {
+            DB::beginTransaction();
+
+            $clientes=Clientes::findOrFail($id_cliente);
+            $clientes->condicion='0';  
+            $clientes->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('clientes');
+        }
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('clientes');
+        }        
     }
 }
