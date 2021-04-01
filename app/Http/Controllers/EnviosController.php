@@ -25,6 +25,7 @@ class EnviosController extends Controller
             {
                 $query=trim($request->get('searchText'));
                 $envios=DB::table('envios')
+
                 ->where('id_envio','LIKE','%'.$query.'%')
                 ->where('condicion','=','1')
                 ->orwhere('calle','LIKE','%'.$query.'%')
@@ -50,16 +51,29 @@ class EnviosController extends Controller
     
         public function store(EnviosFormRequest $request)
         {
-            $envios=new Envios;
-            $envios->lugar_envio=$request->get('lugar_envio');
-            $envios->calle=$request->get('calle');
-            $envios->comuna=$request->get('comuna');
-            $envios->ciudad=$request->get('ciudad');
-            $envios->condicion='1';
-            $envios->save();
-            return Redirect::to('envios');
+            try
+            {
+                DB::beginTransaction();
+
+                $envios=new Envios;
+                $envios->lugar_envio=$request->get('lugar_envio');
+                $envios->calle=$request->get('calle');
+                $envios->comuna=$request->get('comuna');
+                $envios->ciudad=$request->get('ciudad');
+                $envios->condicion='1';
+                $envios->save();
+
+                DB::Commit();
+                return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+                return Redirect::to('envios');
+            }
+            catch(\Exception $e)
+            {   
+                return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+                DB::rollback();
+                return Redirect::to('envios');
+            }   
         }
-    
 
         public function show($id_envio) 
         {
@@ -74,20 +88,50 @@ class EnviosController extends Controller
     
         public function update(EnviosFormRequest $request,$id_envio) 
         {   
-            $envios=Envios::findOrFail($id_envio); 
-            $envios->lugar_envio=$request->get('lugar_envio');
-            $envios->calle=$request->get('calle');
-            $envios->comuna=$request->get('comuna');
-            $envios->ciudad=$request->get('ciudad');
-            $envios->update();
-            return Redirect::to('envios');
+            try
+            {
+                DB::beginTransaction();
+
+                $envios=Envios::findOrFail($id_envio); 
+                $envios->lugar_envio=$request->get('lugar_envio');
+                $envios->calle=$request->get('calle');
+                $envios->comuna=$request->get('comuna');
+                $envios->ciudad=$request->get('ciudad');
+                $envios->update();
+
+                DB::Commit();
+                return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+                return Redirect::to('envios');
+            }
+            catch(\Exception $e)
+            {   
+                return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+                DB::rollback();
+                return Redirect::to('envios');
+            }   
+            
         }
     
         public function destroy($id_envio) 
         {
-            $envios=Envios::findOrFail($id_envio);
-            $envios->condicion='0';  
-            $envios->update();
-            return Redirect::to('envios');
+            try
+            {
+                DB::beginTransaction();
+
+                $envios=Envios::findOrFail($id_envio);
+                $envios->condicion='0';  
+                $envios->update();
+
+                DB::Commit();
+                return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+                return Redirect::to('envios');
+            }
+            catch(\Exception $e)
+            {   
+                return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+                DB::rollback();
+                return Redirect::to('envios');
+            }  
+
         }
 }

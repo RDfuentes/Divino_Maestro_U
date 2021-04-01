@@ -23,6 +23,7 @@ class FabricasController extends Controller
         {
             $query=trim($request->get('searchText'));
             $fabricas=DB::table('fabricas')
+
             ->where('id_fabrica','LIKE','%'.$query.'%')
             ->where('condicion','=','1')
             ->orwhere('nombre','LIKE','%'.$query.'%')
@@ -44,12 +45,25 @@ class FabricasController extends Controller
 
     public function store(FabricasFormRequest $request)
     {
-        $fabricas=new Fabricas;
-        $fabricas->nombre=$request->get('nombre');
-        $fabricas->telefono=$request->get('telefono');
-        $fabricas->condicion='1';
-        $fabricas->save();
-        return Redirect::to('fabricas');
+        try
+        {
+            DB::beginTransaction();
+            $fabricas=new Fabricas;
+            $fabricas->nombre=$request->get('nombre');
+            $fabricas->telefono=$request->get('telefono');
+            $fabricas->condicion='1';
+            $fabricas->save();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('fabricas');
+        }
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('fabricas');
+        }   
     }
 
 
@@ -65,19 +79,47 @@ class FabricasController extends Controller
     }
 
     public function update(FabricasFormRequest $request,$id_fabrica) 
-    {   
-        $fabricas=Fabricas::findOrFail($id_fabrica); 
-        $fabricas->nombre=$request->get('nombre');
-        $fabricas->telefono=$request->get('telefono');
-        $fabricas->update();
-        return Redirect::to('fabricas');
+    {
+        try
+        {
+            DB::beginTransaction(); 
+
+            $fabricas=Fabricas::findOrFail($id_fabrica); 
+            $fabricas->nombre=$request->get('nombre');
+            $fabricas->telefono=$request->get('telefono');
+            $fabricas->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('fabricas');
+        }        
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('fabricas');
+        }   
     }
 
     public function destroy($id_fabrica) 
     {
-        $fabricas=Fabricas::findOrFail($id_fabrica);
-        $fabricas->condicion='0';  
-        $fabricas->update();
-        return Redirect::to('fabricas');
+        try
+        {
+            DB::beginTransaction(); 
+
+            $fabricas=Fabricas::findOrFail($id_fabrica);
+            $fabricas->condicion='0';  
+            $fabricas->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('fabricas');
+        }
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('fabricas');
+        }  
     }
 } 

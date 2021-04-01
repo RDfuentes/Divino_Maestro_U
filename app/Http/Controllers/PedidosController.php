@@ -67,15 +67,17 @@ class PedidosController extends Controller
             $pedidos->condicion='1';
             $pedidos->save();
             
-            DB::commit();
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
             return Redirect::to('pedidos'); 
             
-        }catch(Exception $e)
-        {
-            DB::rollback();
         }
-
-        
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('pedidos');
+        }           
     }
 
 
@@ -97,22 +99,48 @@ class PedidosController extends Controller
 
     public function update(PedidosFormRequest $request,$id_pedido) 
     {   
-        $pedidos=Pedidos::findOrFail($id_pedido); 
-        $pedidos->id_cliente=$request->get('id_cliente');
-        $pedidos->id_envio=$request->get('id_envio');
-        $pedidos->fecha=$request->get('fecha');
-        $pedidos->id_articulo=$request->get('id_articulo');
-        $pedidos->descripcion=$request->get('descripcion');
-        $pedidos->cantidad=$request->get('cantidad');
-        $pedidos->update();
-        return Redirect::to('pedidos');
+        try
+        {
+            DB::beginTransaction();
+            $pedidos=Pedidos::findOrFail($id_pedido); 
+            $pedidos->id_cliente=$request->get('id_cliente');
+            $pedidos->id_envio=$request->get('id_envio');
+            $pedidos->fecha=$request->get('fecha');
+            $pedidos->id_articulo=$request->get('id_articulo');
+            $pedidos->descripcion=$request->get('descripcion');
+            $pedidos->cantidad=$request->get('cantidad');
+            $pedidos->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('pedidos');
+        }
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('pedidos');
+        }   
     }
 
     public function destroy($id_pedido) 
     {
-        $pedidos=Pedidos::findOrFail($id_pedido);
-        $pedidos->condicion='0';  
-        $pedidos->update();
-        return Redirect::to('pedidos');
+        try
+        {
+            DB::beginTransaction();
+            $pedidos=Pedidos::findOrFail($id_pedido);
+            $pedidos->condicion='0';  
+            $pedidos->update();
+
+            DB::Commit();
+            return "<script type='text/javascript'>alert('La transacción se ejecuto correctamente');</script>";
+            return Redirect::to('pedidos');
+        }
+        catch(\Exception $e)
+        {   
+            return "<script type='text/javascript'>alert('La transacción no se llevo a cabo');</script>";
+            DB::rollback();
+            return Redirect::to('pedidos');
+        }   
     }
 } 
