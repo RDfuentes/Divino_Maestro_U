@@ -24,6 +24,8 @@ Route::resource('envios','EnviosController');
 Route::resource('articulos','ArticulosController');
 Route::resource('fabricas','FabricasController');
 Route::resource('pedidos','PedidosController');
+Route::resource('bitacoras','BitacoraController');
+Route::get('pdf/ListarPDF','BitacoraController@ListarPDF')->name('bitacora_articulo_pdf');
 
 Auth::routes();
 

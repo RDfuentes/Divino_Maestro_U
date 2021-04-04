@@ -109,6 +109,13 @@
               </a>
             </li>
 
+            <li class="treeview">
+              <a href="{{ url('/bitacoras') }}">
+                <i class="fa fa-money"></i>
+                <span>Bitacora Articulos</span>
+              </a>
+            </li>
+
           </ul>
         </section>
         <!-- /.sidebar -->
