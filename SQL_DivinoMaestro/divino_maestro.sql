@@ -37,18 +37,6 @@ CREATE TABLE `articulos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `articulos`
---
-
-INSERT INTO `articulos` (`id_articulo`, `articulo`, `id_fabrica`, `existencia`, `descripcion`, `condicion`) VALUES
-(1, 'Caja de herramientas', 1, 50, 'Caja de herramientas varias', 1),
-(2, 'Frijoles', 1, 40, 'Frijoles en caja', 1),
-(3, 'Frijoles', 13, 55, 'Frijoles Negros', 0),
-(4, 'Vasos', 15, 10000, 'una caja de 100 bolsas con 10 unidades', 1);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `clientes`
 --
 
@@ -65,21 +53,6 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id_cliente`, `codigo_unico`, `nombre`, `apellido`, `id_envio`, `saldo`, `credito`, `descuento`, `condicion`) VALUES
-(1, 11111, 'Marlon', 'Miranda', 2, 300, 3000, 30, 1),
-(2, 11112, 'Marlon', 'Miranda', 3, 300, 3000, 30, 1),
-(3, 311, 'Wayo', 'Parawayo', 1, 2800, 3000, 200, 1),
-(4, 10101, 'Marlon', 'Urizar', 3, 200, 2000, 0, 0),
-(5, 2020, 'Maria', 'Juana', 5, 400, 1000, 0, 0),
-(6, 1010, 'Juanito', 'Machon', 1, 3000, 3000, 0, 0),
-(7, 5452, 'Margarito', 'Crisostomo', 8, 2800, 3000, 0, 0);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `envios`
 --
 
@@ -92,21 +65,6 @@ CREATE TABLE `envios` (
   `condicion` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `envios`
---
-
-INSERT INTO `envios` (`id_envio`, `lugar_envio`, `calle`, `comuna`, `ciudad`, `condicion`) VALUES
-(1, 'Ciudad Capital', 'Miguelito', 'Los hijos', 'Guatemala', 1),
-(2, 'San Marcos', 'Panicolo', 'Galeron', 'Guatemala', 1),
-(3, 'Quetzaltenando', 'Monosterio', 'Floresta', 'Guatemala', 1),
-(4, 'Tapachula', 'Idalgo', 'Mixco', 'Mexico', 0),
-(5, 'Alta Verapaz', 'Venito Juarez', 'Verapacito', 'Guatemala', 0),
-(6, 'Pierdra Parada', '45', 'Lomas', 'Guatemala', 0),
-(7, 'San Pablo', 'Colima2', 'El redentor', 'Guatemala', 1),
-(8, 'La chingada', 'Tu madre', 'la tuya', 'Saber', 1);
-
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `fabricas`
@@ -119,17 +77,6 @@ CREATE TABLE `fabricas` (
   `condicion` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `fabricas`
---
-
-INSERT INTO `fabricas` (`id_fabrica`, `nombre`, `telefono`, `condicion`) VALUES
-(1, 'INNAS', 54615717, 1),
-(13, 'MALLER', 77607219, 1),
-(14, 'AFEGUA', 546127318, 0),
-(15, 'BASCO', 77603023, 1);
-
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `failed_jobs`
@@ -194,14 +141,6 @@ CREATE TABLE `pedidos` (
   `condicion` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `pedidos`
---
-
-INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_envio`, `fecha`, `id_articulo`, `descripcion`, `cantidad`, `condicion`) VALUES
-(1, 1, 1, '2020-08-30 10:30:00', 1, 'El pedido debe de llegar antes de las doce de la tarde', 10, 1);
-
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `users`
@@ -223,11 +162,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Marlon Miranda', 'MarlonMiranda@gmail.com', NULL, '$2y$10$5Mf5o.aFVlTn0jZOik6obukihCJs4R1MmM3mhkJ2WnhLg19pKMZJ.', NULL, '2020-08-01 06:54:11', '2020-08-01 06:54:11'),
-(2, 'Luis Fuentes', 'LuisFuentes@gmail.com', NULL, '$2y$10$jK3tf9ObF1g8FkcLElmSrege5.NSTFEQqckyT4rPXjirBgyFMQSHG', NULL, '2020-08-01 07:34:23', '2020-08-01 07:34:23'),
-(3, 'Juan Perez', 'JuanPerez@gmail.com', NULL, '$2y$10$3ZmN.Vbo3w4qhgNESwvS5OFoxQf5xj6JGBH3ADYlSLxir.dZpoH4S', NULL, '2020-08-02 05:39:40', '2020-08-02 05:39:40'),
-(4, 'Abner Lopez', 'Abner@gmail.com', NULL, '$2y$10$H0HRdtnUR6t395wk87MEyOw6DdB3y.NCQJguMdA.rUETR8Vgq84Da', NULL, '2020-08-02 05:47:43', '2020-08-02 05:47:43');
-
+(1, 'Marlon Miranda', 'MarlonMiranda@gmail.com', NULL, '$2y$10$5Mf5o.aFVlTn0jZOik6obukihCJs4R1MmM3mhkJ2WnhLg19pKMZJ.', NULL, '2020-08-01 06:54:11', '2020-08-01 06:54:11');
 --
 -- Índices para tablas volcadas
 --
@@ -297,25 +232,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `articulos`
 --
 ALTER TABLE `articulos`
-  MODIFY `id_articulo` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_articulo` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_cliente` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `envios`
 --
 ALTER TABLE `envios`
-  MODIFY `id_envio` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_envio` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `fabricas`
 --
 ALTER TABLE `fabricas`
-  MODIFY `id_fabrica` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_fabrica` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -327,19 +262,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pedido` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
